@@ -19,6 +19,9 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   firebase_core: ^2.27.1
 
+  expense_repository:
+    path: lib/packages/expense_repository
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
