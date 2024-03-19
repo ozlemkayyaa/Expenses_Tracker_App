@@ -6,8 +6,6 @@ part 'get_expenses_state.dart';
 
 class GetExpensesBloc extends Bloc<GetExpensesEvent, GetExpensesState> {
   GetExpensesBloc() : super(GetExpensesInitial()) {
-    on<GetExpensesEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<GetExpensesEvent>((event, emit) {});
   }
 }

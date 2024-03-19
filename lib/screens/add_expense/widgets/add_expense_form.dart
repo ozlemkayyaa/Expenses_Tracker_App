@@ -1,4 +1,4 @@
-import 'package:expenses_tracker/screens/add_expense/widgets/create_category.dart';
+import 'package:expenses_tracker/screens/add_expense/widgets/create_category_widget.dart';
 import 'package:expenses_tracker/screens/add_expense/widgets/save_button.dart';
 import 'package:expenses_tracker/utils/constants/sizes.dart';
 import 'package:expenses_tracker/utils/constants/texts.dart';
@@ -62,7 +62,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             onTap: () {},
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.list),
-              suffixIcon: CreateCategory(),
+              suffixIcon: CreateCategoryWidget(),
               labelText: ETexts.category,
             ),
           ),

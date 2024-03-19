@@ -6,8 +6,6 @@ part 'get_categories_state.dart';
 
 class GetCategoriesBloc extends Bloc<GetCategoriesEvent, GetCategoriesState> {
   GetCategoriesBloc() : super(GetCategoriesInitial()) {
-    on<GetCategoriesEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<GetCategoriesEvent>((event, emit) {});
   }
 }

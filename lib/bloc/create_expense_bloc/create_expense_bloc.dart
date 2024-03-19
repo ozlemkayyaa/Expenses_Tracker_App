@@ -6,8 +6,6 @@ part 'create_expense_state.dart';
 
 class CreateExpenseBloc extends Bloc<CreateExpenseEvent, CreateExpenseState> {
   CreateExpenseBloc() : super(CreateExpenseInitial()) {
-    on<CreateExpenseEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<CreateExpenseEvent>((event, emit) {});
   }
 }
