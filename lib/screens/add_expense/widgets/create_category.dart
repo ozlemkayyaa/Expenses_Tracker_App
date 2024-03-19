@@ -64,7 +64,7 @@ class CreateCategory extends StatelessWidget {
                             controller: categoryNameController,
                             textAlignVertical: TextAlignVertical.center,
                             decoration: const InputDecoration(
-                              labelText: ETexts.categoryName,
+                              hintText: ETexts.categoryName,
                               isDense: true,
                             ),
                           ),
@@ -81,7 +81,7 @@ class CreateCategory extends StatelessWidget {
                             textAlignVertical: TextAlignVertical.center,
                             readOnly: true,
                             decoration: InputDecoration(
-                              labelText: ETexts.categoryIcon,
+                              hintText: ETexts.categoryIcon,
                               isDense: true,
                               suffixIcon:
                                   const Icon(CupertinoIcons.chevron_down),
@@ -196,7 +196,7 @@ class CreateCategory extends StatelessWidget {
                               isDense: true,
                               filled: true,
                               fillColor: categoryColor,
-                              labelText: ETexts.categoryColor,
+                              hintText: ETexts.categoryColor,
                             ),
                           ),
                           const SizedBox(height: ESizes.md),
