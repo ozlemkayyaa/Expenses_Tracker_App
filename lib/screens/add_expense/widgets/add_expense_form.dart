@@ -35,118 +35,120 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   @override
   Widget build(BuildContext context) {
     //final dark = EHelperFunctions.isDarkMode(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // Add Expenses başlığı
-        Text(ETexts.addExpenses,
-            style: Theme.of(context).textTheme.headlineSmall),
-        const SizedBox(height: ESizes.lg),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Add Expenses başlığı
+          Text(ETexts.addExpenses,
+              style: Theme.of(context).textTheme.headlineSmall),
+          const SizedBox(height: ESizes.lg),
 
-        // Expense
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.95,
-          child: TextFormField(
-            controller: expenseController,
-            keyboardType: TextInputType.number,
-            textAlignVertical: TextAlignVertical.center,
-            decoration: const InputDecoration(
-              prefixIcon: Icon(CupertinoIcons.money_dollar),
-              labelText: ETexts.expense,
+          // Expense
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.95,
+            child: TextFormField(
+              controller: expenseController,
+              keyboardType: TextInputType.number,
+              textAlignVertical: TextAlignVertical.center,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(CupertinoIcons.money_dollar),
+                labelText: ETexts.expense,
+              ),
             ),
           ),
-        ),
 
-        // Category
-        const SizedBox(height: ESizes.lg),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.95,
-          child: TextFormField(
-            controller: categoryController,
-            textAlignVertical: TextAlignVertical.center,
-            readOnly: true,
-            onTap: () {},
-            decoration: const InputDecoration(
-              prefixIcon: Icon(Icons.list),
-              suffixIcon: CreateCategoryWidget(),
-              labelText: ETexts.category,
+          // Category
+          const SizedBox(height: ESizes.lg),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.95,
+            child: TextFormField(
+              controller: categoryController,
+              textAlignVertical: TextAlignVertical.center,
+              readOnly: true,
+              onTap: () {},
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.list),
+                suffixIcon: CreateCategoryWidget(),
+                labelText: ETexts.category,
+              ),
             ),
           ),
-        ),
 
-        Container(
-          height: 200,
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: BlocBuilder<GetCategoriesBloc, GetCategoriesState>(
-              builder: (context, state) {
-                if (state is GetCategoriesSuccess) {
-                  return ListView.builder(
-                      itemCount: state.categories.length,
-                      itemBuilder: (context, int i) {
-                        return Card(
-                          child: ListTile(
-                            leading: Image.asset(
-                              state.categories[i].icon,
-                              scale: 2,
+          Container(
+            height: 200,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BlocBuilder<GetCategoriesBloc, GetCategoriesState>(
+                builder: (context, state) {
+                  if (state is GetCategoriesSuccess) {
+                    return ListView.builder(
+                        itemCount: state.categories.length,
+                        itemBuilder: (context, int i) {
+                          return Card(
+                            child: ListTile(
+                              leading: Image.asset(
+                                state.categories[i].icon,
+                                scale: 2,
+                              ),
+                              title: Text(state.categories[i].name),
+                              tileColor: Color(state.categories[i].color),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
                             ),
-                            title: Text(state.categories[i].name),
-                            tileColor: Color(state.categories[i].color),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                          ),
-                        );
-                      });
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                          );
+                        });
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
+
+          // Date
+          const SizedBox(height: ESizes.lg),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.95,
+            child: TextFormField(
+              controller: dateController,
+              onTap: () async {
+                DateTime? newDate = await showDatePicker(
+                  context: context,
+                  initialDate: selectedDate,
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(const Duration(days: 365)),
+                );
+                if (newDate != null) {
+                  dateController.text =
+                      DateFormat(ETexts.dateFormat).format(newDate);
+                  selectedDate = newDate;
                 }
               },
+              readOnly: true, // klavye çıkmaz,
+              textAlignVertical: TextAlignVertical.center,
+              keyboardType: TextInputType.datetime,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.calendar_month_outlined),
+                labelText: ETexts.date,
+              ),
             ),
           ),
-        ),
 
-        // Date
-        const SizedBox(height: ESizes.lg),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.95,
-          child: TextFormField(
-            controller: dateController,
-            onTap: () async {
-              DateTime? newDate = await showDatePicker(
-                context: context,
-                initialDate: selectedDate,
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(const Duration(days: 365)),
-              );
-              if (newDate != null) {
-                dateController.text =
-                    DateFormat(ETexts.dateFormat).format(newDate);
-                selectedDate = newDate;
-              }
-            },
-            readOnly: true, // klavye çıkmaz,
-            textAlignVertical: TextAlignVertical.center,
-            keyboardType: TextInputType.datetime,
-            decoration: const InputDecoration(
-              prefixIcon: Icon(Icons.calendar_month_outlined),
-              labelText: ETexts.date,
-            ),
+          // Save
+          const SizedBox(height: ESizes.xl),
+          SaveButton(
+            onPressed: () {},
           ),
-        ),
-
-        // Save
-        const SizedBox(height: ESizes.xl),
-        SaveButton(
-          onPressed: () {},
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
