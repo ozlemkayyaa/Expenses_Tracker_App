@@ -1,9 +1,14 @@
+import 'package:expenses_tracker/bloc/get_categories_bloc/get_categories_bloc.dart';
+//import 'package:expenses_tracker/screens/add_expense/widgets/category_list_card.dart';
 import 'package:expenses_tracker/screens/add_expense/widgets/create_category_widget.dart';
 import 'package:expenses_tracker/screens/add_expense/widgets/save_button.dart';
+//import 'package:expenses_tracker/utils/constants/colors.dart';
 import 'package:expenses_tracker/utils/constants/sizes.dart';
 import 'package:expenses_tracker/utils/constants/texts.dart';
+//import 'package:expenses_tracker/utils/helpers/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class AddExpenseForm extends StatefulWidget {
@@ -29,6 +34,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
 
   @override
   Widget build(BuildContext context) {
+    //final dark = EHelperFunctions.isDarkMode(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -60,10 +66,48 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             textAlignVertical: TextAlignVertical.center,
             readOnly: true,
             onTap: () {},
-            decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.list),
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.list),
               suffixIcon: CreateCategoryWidget(),
               labelText: ETexts.category,
+            ),
+          ),
+        ),
+
+        Container(
+          height: 200,
+          width: MediaQuery.of(context).size.width,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: BlocBuilder<GetCategoriesBloc, GetCategoriesState>(
+              builder: (context, state) {
+                if (state is GetCategoriesSuccess) {
+                  return ListView.builder(
+                      itemCount: state.categories.length,
+                      itemBuilder: (context, int i) {
+                        return Card(
+                          child: ListTile(
+                            leading: Image.asset(
+                              state.categories[i].icon,
+                              scale: 2,
+                            ),
+                            title: Text(state.categories[i].name),
+                            tileColor: Color(state.categories[i].color),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                          ),
+                        );
+                      });
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
           ),
         ),

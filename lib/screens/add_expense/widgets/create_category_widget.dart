@@ -224,8 +224,7 @@ class _CreateCategoryWidgetState extends State<CreateCategoryWidget> {
                                         category.name =
                                             categoryNameController.text;
                                         category.icon = iconSelected;
-                                        category.color =
-                                            categoryColor.toString();
+                                        category.color = categoryColor.value;
                                         context
                                             .read<CreateCategoryBloc>()
                                             .add(CreateCategory(category));
