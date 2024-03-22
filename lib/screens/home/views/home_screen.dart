@@ -1,5 +1,6 @@
 import 'package:expense_repository/expense_repository.dart';
 import 'package:expenses_tracker/bloc/create_category_bloc/create_category_bloc.dart';
+import 'package:expenses_tracker/bloc/create_expense_bloc/create_expense_bloc.dart';
 import 'package:expenses_tracker/bloc/get_categories_bloc/get_categories_bloc.dart';
 import 'package:expenses_tracker/screens/add_expense/views/add_expense.dart';
 import 'package:expenses_tracker/screens/home/views/main_screen.dart';
@@ -56,6 +57,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     create: (context) =>
                         GetCategoriesBloc(FirebaseExpenseRepo())
                           ..add(GetCategories()),
+                  ),
+                  BlocProvider(
+                    create: (context) =>
+                        CreateExpenseBloc(FirebaseExpenseRepo()),
                   ),
                 ],
                 child: const AddExpense(),
