@@ -1,8 +1,5 @@
 import 'package:expense_repository/expense_repository.dart';
-import 'package:expenses_tracker/data/data.dart';
-import 'package:expenses_tracker/utils/constants/colors.dart';
 import 'package:expenses_tracker/utils/constants/constants.dart';
-import 'package:expenses_tracker/utils/constants/sizes.dart';
 import 'package:expenses_tracker/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
