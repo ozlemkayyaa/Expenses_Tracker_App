@@ -7,4 +7,10 @@ abstract class ExpenseRepository {
 
   // Tüm kategorileri almayı sağlayan metot
   Future<List<Category>> getCategory();
+
+  // Yeni bir gider oluşturmayı sağlayan metot.
+  Future<void> createExpense(Expense expense);
+
+  // Tüm giderleri almayı sağlayan metot.
+  Future<List<Expense>> getExpenses();
 }

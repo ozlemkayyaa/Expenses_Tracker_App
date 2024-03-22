@@ -52,4 +52,44 @@ class FirebaseExpenseRepo implements ExpenseRepository {
       rethrow;
     }
   }
+
+  /*
+  Yeni bir gider oluşturmayı sağlayan fonksiyon. Giderin Firestore veritabanına eklenmesi işlemini gerçekleştirir.
+  expenseCollection üzerinden gider belgesi oluşturulur ve 
+  bu belge, gider nesnesinin toEntity() metoduyla dönüştürülen Entity'e, 
+  daha sonra da toDocument() metoduyla dönüştürülen belgeye ayarlanır.
+  set() metodu kullanılarak Firestore'a yeni belge eklenir. 
+  Bu işlem sırasında hata oluşursa, log() ile hata mesajı kaydedilir ve hata yeniden atılır (rethrow).
+  */
+  @override
+  Future<void> createExpense(Expense expense) async {
+    try {
+      await expenseCollection
+          .doc(expense.expenseId)
+          .set(expense.toEntity().toDocument());
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  /*
+  Firestore'dan tüm giderlerin alınmasını sağlayan fonksiyon. expenseCollection üzerinden tüm giderlerin belgeleri getirilir.
+  Ardından, bu belgelerin içinden bir dizi gider oluşturulur.
+  get() metodu asenkron olarak çalıştığı için, then() metodu kullanılarak belgelerin listesi alınır ve map() ile her bir belge,
+  ExpenseEntity.fromDocument() ve sonrasında Expense.fromEntity() metotları kullanılarak gider nesnesine dönüştürülür.
+  Son olarak, bu dönüştürülmüş gider nesneleri bir listeye dönüştürülür ve döndürülür.
+  Herhangi bir hata durumunda, log() ile hata mesajı kaydedilir ve hata yeniden atılır (rethrow).
+  */
+  @override
+  Future<List<Expense>> getExpenses() async {
+    try {
+      return await expenseCollection.get().then((value) => value.docs
+          .map((e) => Expense.fromEntity(ExpenseEntity.fromDocument(e.data())))
+          .toList());
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
 }

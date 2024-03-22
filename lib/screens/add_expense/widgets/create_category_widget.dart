@@ -1,13 +1,13 @@
-import 'package:expense_repository/expense_repository.dart';
 import 'package:expenses_tracker/bloc/create_category_bloc/create_category_bloc.dart';
 import 'package:expenses_tracker/screens/add_expense/widgets/save_button.dart';
 import 'package:expenses_tracker/utils/helpers/icon_helper.dart';
-import '../../../utils/constants/constants.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:expenses_tracker/utils/helpers/helpers.dart';
+import 'package:expense_repository/expense_repository.dart';
+import '../../../utils/constants/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:uuid/uuid.dart';
 
 class CreateCategoryWidget extends StatefulWidget {
@@ -25,6 +25,7 @@ class _CreateCategoryWidgetState extends State<CreateCategoryWidget> {
     return IconButton(
       onPressed: () async {
         var newCategory = getCategoryCreation(context);
+        // ignore: avoid_print
         print(newCategory);
 
         // Create a Category Dialog

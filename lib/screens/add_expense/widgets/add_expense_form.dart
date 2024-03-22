@@ -1,10 +1,13 @@
+import 'package:expense_repository/expense_repository.dart';
 import 'package:expenses_tracker/bloc/get_categories_bloc/get_categories_bloc.dart';
 //import 'package:expenses_tracker/screens/add_expense/widgets/category_list_card.dart';
 import 'package:expenses_tracker/screens/add_expense/widgets/create_category_widget.dart';
 import 'package:expenses_tracker/screens/add_expense/widgets/save_button.dart';
+import 'package:expenses_tracker/utils/constants/colors.dart';
 //import 'package:expenses_tracker/utils/constants/colors.dart';
 import 'package:expenses_tracker/utils/constants/sizes.dart';
 import 'package:expenses_tracker/utils/constants/texts.dart';
+import 'package:expenses_tracker/utils/helpers/helpers.dart';
 //import 'package:expenses_tracker/utils/helpers/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,16 +28,18 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   final TextEditingController categoryController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  late Expense expense;
 
   @override
   void initState() {
     dateController.text = DateFormat(ETexts.dateFormat).format(DateTime.now());
+    expense = Expense.empty;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    //final dark = EHelperFunctions.isDarkMode(context);
+    final dark = EHelperFunctions.isDarkMode(context);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,7 +58,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               textAlignVertical: TextAlignVertical.center,
               decoration: const InputDecoration(
                 prefixIcon: Icon(CupertinoIcons.money_dollar),
-                labelText: ETexts.expense,
+                hintText: ETexts.expense,
               ),
             ),
           ),
@@ -67,10 +72,21 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               textAlignVertical: TextAlignVertical.center,
               readOnly: true,
               onTap: () {},
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.list),
-                suffixIcon: CreateCategoryWidget(),
-                labelText: ETexts.category,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: expense.category == Category.empty
+                    ? dark
+                        ? EColors.black
+                        : Colors.white
+                    : Color(expense.category.color),
+                prefixIcon: expense.category == Category.empty
+                    ? const Icon(Icons.list)
+                    : Image.asset(
+                        expense.category.icon,
+                        scale: 2,
+                      ),
+                suffixIcon: const CreateCategoryWidget(),
+                hintText: ETexts.category,
               ),
             ),
           ),
@@ -78,9 +94,10 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
           Container(
             height: 200,
             width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)),
+            decoration: BoxDecoration(
+              color: dark ? EColors.black : Colors.white,
+              borderRadius:
+                  const BorderRadius.vertical(bottom: Radius.circular(12)),
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -92,6 +109,13 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                         itemBuilder: (context, int i) {
                           return Card(
                             child: ListTile(
+                              onTap: () {
+                                setState(() {
+                                  expense.category = state.categories[i];
+                                  categoryController.text =
+                                      expense.category.name;
+                                });
+                              },
                               leading: Image.asset(
                                 state.categories[i].icon,
                                 scale: 2,
@@ -122,14 +146,15 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               onTap: () async {
                 DateTime? newDate = await showDatePicker(
                   context: context,
-                  initialDate: selectedDate,
+                  initialDate: expense.date,
                   firstDate: DateTime.now(),
                   lastDate: DateTime.now().add(const Duration(days: 365)),
                 );
                 if (newDate != null) {
                   dateController.text =
                       DateFormat(ETexts.dateFormat).format(newDate);
-                  selectedDate = newDate;
+                  //selectedDate = newDate;
+                  expense.date = newDate;
                 }
               },
               readOnly: true, // klavye çıkmaz,
@@ -145,7 +170,11 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
           // Save
           const SizedBox(height: ESizes.xl),
           SaveButton(
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                expense.amount = int.parse(expenseController.text);
+              });
+            },
           ),
         ],
       ),
