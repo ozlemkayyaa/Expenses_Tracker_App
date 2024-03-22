@@ -1,3 +1,4 @@
+import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
 
 class EHelperFunctions {
@@ -12,5 +13,13 @@ class EHelperFunctions {
 // Tema modunun dark mı yoksa light mı olduğunu kontrol eden fonksiyon
   static bool isDarkMode(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark;
+  }
+
+  static double calculateTotalExpense(List<Expense> expenses) {
+    double totalExpense = 0;
+    for (var expense in expenses) {
+      totalExpense += expense.amount;
+    }
+    return totalExpense;
   }
 }

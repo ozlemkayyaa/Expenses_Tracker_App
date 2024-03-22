@@ -45,7 +45,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
     return BlocListener<CreateExpenseBloc, CreateExpenseState>(
       listener: (context, state) {
         if (state is CreateExpenseSuccess) {
-          Navigator.pop(context);
+          Navigator.pop(context, expense);
         } else if (state is CreateExpenseLoading) {
           setState(() {
             isLoading = true;

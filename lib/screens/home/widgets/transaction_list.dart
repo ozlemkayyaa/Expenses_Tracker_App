@@ -1,13 +1,15 @@
+import 'package:expense_repository/expense_repository.dart';
 import 'package:expenses_tracker/data/data.dart';
 import 'package:expenses_tracker/utils/constants/colors.dart';
+import 'package:expenses_tracker/utils/constants/constants.dart';
 import 'package:expenses_tracker/utils/constants/sizes.dart';
 import 'package:expenses_tracker/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
-  const TransactionList({
-    super.key,
-  });
+  final List<Expense> expenses;
+  const TransactionList(this.expenses, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class TransactionList extends StatelessWidget {
 
     return Expanded(
       child: ListView.builder(
-          itemCount: transactionsData.length,
+          itemCount: expenses.length,
           itemBuilder: (context, int i) {
             return Padding(
               padding: const EdgeInsets.only(bottom: ESizes.sm),
@@ -38,22 +40,27 @@ class TransactionList extends StatelessWidget {
                                 width: ESizes.containerSize,
                                 height: ESizes.containerSize,
                                 decoration: BoxDecoration(
-                                    color: transactionsData[i]['color'],
+                                    color: Color(expenses[i].category.color),
                                     shape: BoxShape.circle),
                               ),
-                              transactionsData[i]['icon'],
+                              Image.asset(
+                                expenses[i].category.icon,
+                                scale: 2,
+                              ),
                             ],
                           ),
                           const SizedBox(width: ESizes.md),
-                          Text(transactionsData[i]['name'],
+                          Text(expenses[i].category.name,
                               style: Theme.of(context).textTheme.bodyLarge),
                         ],
                       ),
                       Column(
                         children: [
-                          Text(transactionsData[i]['amount'],
+                          Text("\$${expenses[i].amount}.00",
                               style: Theme.of(context).textTheme.bodyMedium),
-                          Text(transactionsData[i]['date'],
+                          Text(
+                              DateFormat(ETexts.dateFormat)
+                                  .format(expenses[i].date),
                               style: Theme.of(context).textTheme.labelMedium),
                         ],
                       ),

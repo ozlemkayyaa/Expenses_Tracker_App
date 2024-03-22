@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:expense_repository/expense_repository.dart';
 import 'package:expenses_tracker/screens/home/widgets/income_widget.dart';
 import 'package:expenses_tracker/utils/constants/colors.dart';
 import 'package:expenses_tracker/utils/constants/sizes.dart';
@@ -8,13 +9,12 @@ import 'package:expenses_tracker/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 
 class MainCard extends StatelessWidget {
-  const MainCard({
-    super.key,
-  });
-
+  final List<Expense> expenses;
+  const MainCard(this.expenses, {super.key});
   @override
   Widget build(BuildContext context) {
     final dark = EHelperFunctions.isDarkMode(context);
+    double totalExpense = EHelperFunctions.calculateTotalExpense(expenses);
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -41,7 +41,7 @@ class MainCard extends StatelessWidget {
                   .titleLarge!
                   .apply(color: EColors.textWhite)),
           const SizedBox(height: ESizes.md),
-          Text(ETexts.expenseMoney,
+          Text('$totalExpense',
               style: Theme.of(context)
                   .textTheme
                   .headlineLarge!

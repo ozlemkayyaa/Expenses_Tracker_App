@@ -2,6 +2,7 @@ import 'package:expense_repository/expense_repository.dart';
 import 'package:expenses_tracker/bloc/create_category_bloc/create_category_bloc.dart';
 import 'package:expenses_tracker/bloc/create_expense_bloc/create_expense_bloc.dart';
 import 'package:expenses_tracker/bloc/get_categories_bloc/get_categories_bloc.dart';
+import 'package:expenses_tracker/bloc/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:expenses_tracker/screens/add_expense/views/add_expense.dart';
 import 'package:expenses_tracker/screens/home/views/main_screen.dart';
 import 'package:expenses_tracker/screens/stats/stat_screen.dart';
@@ -21,11 +22,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var widgetList = [
-    const MainScreen(),
-    const StatScreen(),
-  ];
-
   int index = 0;
   late Color selectedColor;
   Color unselectedColor = EColors.darkGrey;
@@ -39,38 +35,57 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final dark = EHelperFunctions.isDarkMode(context);
-    return Scaffold(
-      bottomNavigationBar: bottomNavigationBarMethod(dark),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) => MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (context) =>
-                        CreateCategoryBloc(FirebaseExpenseRepo()),
+
+    return BlocBuilder<GetExpensesBloc, GetExpensesState>(
+      builder: (context, state) {
+        if (state is GetExpensesSuccess) {
+          return Scaffold(
+            bottomNavigationBar: bottomNavigationBarMethod(dark),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                Expense? newExpense = await Navigator.push(
+                  context,
+                  MaterialPageRoute<Expense>(
+                    builder: (BuildContext context) => MultiBlocProvider(
+                      providers: [
+                        BlocProvider(
+                          create: (context) =>
+                              CreateCategoryBloc(FirebaseExpenseRepo()),
+                        ),
+                        BlocProvider(
+                          create: (context) =>
+                              GetCategoriesBloc(FirebaseExpenseRepo())
+                                ..add(GetCategories()),
+                        ),
+                        BlocProvider(
+                          create: (context) =>
+                              CreateExpenseBloc(FirebaseExpenseRepo()),
+                        ),
+                      ],
+                      child: const AddExpense(),
+                    ),
                   ),
-                  BlocProvider(
-                    create: (context) =>
-                        GetCategoriesBloc(FirebaseExpenseRepo())
-                          ..add(GetCategories()),
-                  ),
-                  BlocProvider(
-                    create: (context) =>
-                        CreateExpenseBloc(FirebaseExpenseRepo()),
-                  ),
-                ],
-                child: const AddExpense(),
-              ),
+                );
+                if (newExpense != null) {
+                  setState(() {
+                    state.expenses.insert(0, newExpense);
+                  });
+                }
+              },
+              child: const Icon(CupertinoIcons.add),
+            ),
+            body: index == 0 ? MainScreen(state.expenses) : const StatScreen(),
+          );
+        } else {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
             ),
           );
-        },
-        child: const Icon(CupertinoIcons.add),
-      ),
-      body: index == 0 ? const MainScreen() : const StatScreen(),
+        }
+      },
     );
   }
 
