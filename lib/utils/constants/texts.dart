@@ -2,6 +2,19 @@ class ETexts {
   //---------------------------------------------------------------------------
 
   //--------------------------------- Login -----------------------------------
+  static const String fullName = "Full Name";
+  static const String email = "E-Mail";
+  static const String password = "Password";
+  static const String confirmPassword = "Confirm Password";
+  static const String loginButton = "SIGN IN";
+  static const String registerButton = "SIGN UP";
+  static const String rememberMe = "Remember Me";
+  static const String forgotPassword = "Forgot Password?";
+  static const String orSign = "or sign in with";
+  static const String dontAccount = "Don't have an account?";
+  static const String alreadyAccount = "Already have an account?";
+  static const String login = "Sign In!";
+  static const String register = "Sign Up!";
 
   //------------------------------ Main_Header --------------------------------
   static const String welcome = "Welcome!";

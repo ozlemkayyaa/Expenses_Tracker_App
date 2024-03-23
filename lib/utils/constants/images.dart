@@ -11,4 +11,9 @@ class EImages {
   static const String spotifyIcon = "assets/images/spotify.png";
   static const String travelIcon = "assets/images/travel.png";
   static const String youtubeIcon = "assets/images/youtube.png";
+
+  // Logo
+  static const String google = "assets/logos/googleLogo.png";
+  static const String appleWhite = "assets/logos/appleWhite.png";
+  static const String appleDark = "assets/logos/appleLogo.png";
 }
