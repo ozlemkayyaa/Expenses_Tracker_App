@@ -9,5 +9,8 @@ abstract class AuthRepository {
   Future<void> signOut();
 
   // Şifre sıfırlama
-  Future<void> resetPassword(String email);
+  Future<void> forgotPassword(String email);
+
+  // Şifre Değiştirme
+  Future<void> changePassword(String newPassword, String confirmNewPassword);
 }

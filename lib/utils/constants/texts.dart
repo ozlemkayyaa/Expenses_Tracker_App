@@ -93,4 +93,13 @@ class ETexts {
 
   //----------------------------- Exception -----------------------------------
   static const String index = "Invalid index.";
+
+  //-------------------------- Auth Error Message -----------------------------
+  static const String loggedIn = "An error occurred while logging in:";
+  static const String loggedOut = "An error occurred while logging out:";
+  static const String registered = "An error occurred while registering:";
+  static const String resetPassword =
+      "An error occurred while resetting the password:";
+  static const String changePassword =
+      "An error occurred while changing the password:";
 }

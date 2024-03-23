@@ -1,25 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_repository/constants/collections.dart';
 import 'package:expense_repository/src/auth_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthRepo implements AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
+  // Register
   @override
   Future<void> register(String fullName, String email, String password) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      await _firebaseFirestore
+          .collection(Collections.users)
+          .doc(userCredential.user!.uid)
+          .set({
+        'userId': userCredential.user!.uid,
+        'fullName': fullName,
+        'email': email,
+      });
     } on FirebaseAuthException catch (e) {
       print("Registration Error: ${e.message}");
       rethrow;
     }
   }
 
+  //Forgot Password
   @override
-  Future<void> resetPassword(String email) async {
+  Future<void> forgotPassword(String email) async {
     try {
+      await _firebaseAuth.setLanguageCode('tr');
       await _firebaseAuth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
       print("Reset Password Error: ${e.message}");
@@ -27,6 +42,20 @@ class FirebaseAuthRepo implements AuthRepository {
     }
   }
 
+  // Change Password
+  @override
+  Future<void> changePassword(
+      String newPassword, String confirmNewPassword) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      await user.updatePassword(newPassword);
+    } else {
+      throw Exception('Kullanıcı yok');
+    }
+  }
+
+  // SignIn
   @override
   Future<void> signIn(String email, String password) async {
     try {
@@ -40,6 +69,7 @@ class FirebaseAuthRepo implements AuthRepository {
     }
   }
 
+  // SignOut
   @override
   Future<void> signOut() async {
     try {

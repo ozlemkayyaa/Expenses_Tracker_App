@@ -9,7 +9,7 @@ class UserEntity {
     required this.email,
   });
 
-  Map<String, Object> toDocument() {
+  Map<String, dynamic> toDocument() {
     return {
       'userId': userId,
       'fullName': fullName,
