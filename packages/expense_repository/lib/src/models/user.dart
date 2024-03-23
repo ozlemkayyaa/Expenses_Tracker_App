@@ -1,14 +1,14 @@
 import '../entities/entities.dart';
 
 class User {
-  String userId;
-  String fullName;
-  String email;
+  String? userId;
+  String? fullName;
+  String? email;
 
   User({
-    required this.userId,
-    required this.fullName,
-    required this.email,
+    this.userId,
+    this.fullName,
+    this.email,
   });
 
   static final empty = User(

@@ -1,6 +1,6 @@
 import 'package:expenses_tracker/utils/constants/texts.dart';
 
-class TValidator {
+class EValidator {
   // Ad/Soayad doğrulaması yapan fonksiyon
   static String? validateName(String? value) {
     if (value == null || value.isEmpty) {

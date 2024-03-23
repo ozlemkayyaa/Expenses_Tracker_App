@@ -1,12 +1,12 @@
 class UserEntity {
-  String userId;
-  String fullName;
-  String email;
+  String? userId;
+  String? fullName;
+  String? email;
 
   UserEntity({
-    required this.userId,
-    required this.fullName,
-    required this.email,
+    this.userId,
+    this.fullName,
+    this.email,
   });
 
   Map<String, dynamic> toDocument() {

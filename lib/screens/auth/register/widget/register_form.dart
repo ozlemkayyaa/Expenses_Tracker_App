@@ -1,57 +1,119 @@
-import 'package:expenses_tracker/screens/home/views/home_screen.dart';
+import 'package:expense_repository/expense_repository.dart';
+import 'package:expenses_tracker/bloc/auth_bloc/auth_bloc.dart';
 import 'package:expenses_tracker/utils/constants/sizes.dart';
 import 'package:expenses_tracker/utils/constants/texts.dart';
+import 'package:expenses_tracker/utils/validator/validation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RegisterForm extends StatelessWidget {
+class RegisterForm extends StatefulWidget {
   const RegisterForm({
     super.key,
   });
 
   @override
+  State<RegisterForm> createState() => _RegisterFormState();
+}
+
+class _RegisterFormState extends State<RegisterForm> {
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  bool _obscureText = true;
+  final _formKey = GlobalKey<FormState>();
+  final User _user = User();
+
+  @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Padding(
         padding: const EdgeInsets.all(ESizes.spaceBtwSections),
         child: Column(
           children: [
             // Full Name
             TextFormField(
+              onSaved: (value) {
+                _user.fullName = value!;
+              },
+              validator: EValidator.validateName,
+              controller: fullNameController,
               decoration: const InputDecoration(labelText: ETexts.fullName),
             ),
             const SizedBox(height: ESizes.spaceBtwInputFields),
 
             // E-Mail
             TextFormField(
+              onSaved: (value) {
+                _user.email = value!;
+              },
+              validator: EValidator.validateEmail,
+              controller: emailController,
               decoration: const InputDecoration(labelText: ETexts.email),
             ),
             const SizedBox(height: ESizes.spaceBtwInputFields),
 
             // Password
             TextFormField(
-              decoration: const InputDecoration(labelText: ETexts.password),
+              obscureText: _obscureText,
+              validator: EValidator.validatePassword,
+              controller: passwordController,
+              decoration: InputDecoration(
+                labelText: ETexts.password,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                ),
+              ),
             ),
             const SizedBox(height: ESizes.spaceBtwInputFields),
 
             // Confirm Password
             TextFormField(
-              decoration:
-                  const InputDecoration(labelText: ETexts.confirmPassword),
+              obscureText: _obscureText,
+              validator: EValidator.validatePassword,
+              controller: confirmPasswordController,
+              decoration: InputDecoration(
+                labelText: ETexts.confirmPassword,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                ),
+              ),
             ),
             const SizedBox(height: ESizes.paddingXxl),
 
             // Register Button
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomeScreen()));
-                },
-                child: const Text(ETexts.registerButton),
-              ),
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        context.read<AuthBloc>().add(Registered(
+                            emailController.text,
+                            passwordController.text,
+                            fullNameController.text));
+                      }
+                    },
+                    child: const Text(ETexts.registerButton),
+                  ),
+                );
+              },
             )
           ],
         ),

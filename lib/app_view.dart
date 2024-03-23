@@ -1,4 +1,6 @@
+import 'package:expense_repository/auth_repository.dart';
 import 'package:expense_repository/expense_repository.dart';
+import 'package:expenses_tracker/bloc/auth_bloc/auth_bloc.dart';
 import 'package:expenses_tracker/bloc/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:expenses_tracker/screens/auth/login/login_screen.dart';
 //import 'package:expenses_tracker/screens/home/views/home_screen.dart';
@@ -17,9 +19,16 @@ class MyAppView extends StatelessWidget {
         theme: ExpensesTrackerAppTheme.lightTheme,
         darkTheme: ExpensesTrackerAppTheme.darkTheme,
         debugShowCheckedModeBanner: false,
-        home: BlocProvider(
-          create: (context) =>
-              GetExpensesBloc(FirebaseExpenseRepo())..add(GetExpenses()),
+        home: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) =>
+                  GetExpensesBloc(FirebaseExpenseRepo())..add(GetExpenses()),
+            ),
+            BlocProvider(
+              create: (context) => AuthBloc(FirebaseAuthRepo()),
+            ),
+          ],
           child: const LoginScreen(),
         ));
   }

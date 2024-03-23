@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_repository/constants/collections.dart';
+import 'package:expense_repository/constants/texts.dart';
 import 'package:expense_repository/src/auth_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -25,7 +26,8 @@ class FirebaseAuthRepo implements AuthRepository {
         'email': email,
       });
     } on FirebaseAuthException catch (e) {
-      print("Registration Error: ${e.message}");
+      // ignore: avoid_print
+      print('${ETextsPackage.registerError} ${e.message}');
       rethrow;
     }
   }
@@ -37,7 +39,8 @@ class FirebaseAuthRepo implements AuthRepository {
       await _firebaseAuth.setLanguageCode('tr');
       await _firebaseAuth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
-      print("Reset Password Error: ${e.message}");
+      // ignore: avoid_print
+      print('${ETextsPackage.resetPasswordError} ${e.message}');
       rethrow;
     }
   }
@@ -51,7 +54,7 @@ class FirebaseAuthRepo implements AuthRepository {
     if (user != null) {
       await user.updatePassword(newPassword);
     } else {
-      throw Exception('Kullanıcı yok');
+      throw Exception(ETextsPackage.noUser);
     }
   }
 
@@ -64,7 +67,8 @@ class FirebaseAuthRepo implements AuthRepository {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      print("Sign In Error: ${e.message}");
+      // ignore: avoid_print
+      print('${ETextsPackage.signInError} ${e.message}');
       rethrow;
     }
   }
@@ -75,7 +79,8 @@ class FirebaseAuthRepo implements AuthRepository {
     try {
       await _firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
-      print("Sign Out Error: ${e.message}");
+      // ignore: avoid_print
+      print('${ETextsPackage.signOutError} ${e.message}');
       rethrow;
     }
   }
