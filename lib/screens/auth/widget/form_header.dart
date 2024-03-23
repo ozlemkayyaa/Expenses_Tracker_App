@@ -1,25 +1,32 @@
 import 'package:expenses_tracker/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
-class LoginHeader extends StatelessWidget {
-  const LoginHeader({
+class FormHeader extends StatelessWidget {
+  const FormHeader({
     super.key,
+    required this.paddingValue,
+    required this.header,
+    required this.headerMessage,
   });
+
+  final String header;
+  final String headerMessage;
+  final double paddingValue;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 100.0),
+      padding: EdgeInsets.only(top: paddingValue),
       child: Center(
         child: Column(
           children: [
             Text(
-              "Welcome Back!",
+              header,
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             Padding(
               padding: const EdgeInsets.all(ESizes.sm),
-              child: Text("Track your money, shape your future",
+              child: Text(headerMessage,
                   style: Theme.of(context).textTheme.bodySmall),
             ),
           ],

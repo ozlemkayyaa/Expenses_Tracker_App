@@ -10,11 +10,16 @@ class ETexts {
   static const String registerButton = "SIGN UP";
   static const String rememberMe = "Remember Me";
   static const String forgotPassword = "Forgot Password?";
-  static const String orSign = "or sign in with";
+  static const String orSignIn = "or sign in with";
+  static const String orSignUp = "or sign up with";
   static const String dontAccount = "Don't have an account?";
   static const String alreadyAccount = "Already have an account?";
   static const String login = "Sign In!";
   static const String register = "Sign Up!";
+  static const String loginHeader = "Welcome Back!";
+  static const String registerHeader = "Create Your Account";
+  static const String loginMessage = "Track your money, shape your future!";
+  static const String registerMessage = "Start managing your expenses today!";
 
   //------------------------------ Main_Header --------------------------------
   static const String welcome = "Welcome!";
