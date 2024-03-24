@@ -25,72 +25,78 @@ class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
   late Color selectedColor;
   Color unselectedColor = EColors.darkGrey;
+  late GetExpensesBloc _getExpensesBloc;
 
   @override
   void initState() {
-    selectedColor = EColors.primary;
     super.initState();
+    selectedColor = EColors.primary;
+    _getExpensesBloc = GetExpensesBloc(FirebaseExpenseRepo());
+    _getExpensesBloc.add(GetExpenses());
   }
 
   @override
   Widget build(BuildContext context) {
     final dark = EHelperFunctions.isDarkMode(context);
 
-    return BlocBuilder<GetExpensesBloc, GetExpensesState>(
-      builder: (context, state) {
-        if (state is GetExpensesSuccess) {
-          return Scaffold(
-            bottomNavigationBar: bottomNavigationBarMethod(dark),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                Expense? newExpense = await Navigator.push(
-                  context,
-                  MaterialPageRoute<Expense>(
-                    builder: (BuildContext context) => MultiBlocProvider(
-                      providers: [
-                        BlocProvider(
-                          create: (context) =>
-                              CreateCategoryBloc(FirebaseExpenseRepo()),
-                        ),
-                        BlocProvider(
-                          create: (context) =>
-                              GetCategoriesBloc(FirebaseExpenseRepo())
-                                ..add(GetCategories()),
-                        ),
-                        BlocProvider(
-                          create: (context) =>
-                              CreateExpenseBloc(FirebaseExpenseRepo()),
-                        ),
-                      ],
-                      child: const AddExpense(),
+    return BlocProvider(
+      create: (context) => _getExpensesBloc,
+      child: BlocBuilder<GetExpensesBloc, GetExpensesState>(
+        builder: (context, state) {
+          if (state is GetExpensesSuccess) {
+            return Scaffold(
+              bottomNavigationBar: bottomNavigationBarMethod(dark),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerDocked,
+              floatingActionButton: FloatingActionButton(
+                onPressed: () async {
+                  Expense? newExpense = await Navigator.push(
+                    context,
+                    MaterialPageRoute<Expense>(
+                      builder: (BuildContext context) => MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (context) =>
+                                CreateCategoryBloc(FirebaseExpenseRepo()),
+                          ),
+                          BlocProvider(
+                            create: (context) =>
+                                GetCategoriesBloc(FirebaseExpenseRepo())
+                                  ..add(GetCategories()),
+                          ),
+                          BlocProvider(
+                            create: (context) =>
+                                CreateExpenseBloc(FirebaseExpenseRepo()),
+                          ),
+                        ],
+                        child: const AddExpense(),
+                      ),
                     ),
-                  ),
-                );
-                if (newExpense != null) {
-                  setState(() {
-                    state.expenses.insert(0, newExpense);
-                  });
-                }
-              },
-              child: const Icon(CupertinoIcons.add),
-            ),
-            body: index == 0 ? MainScreen(state.expenses) : const StatScreen(),
-          );
-        } else {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      },
+                  );
+                  if (newExpense != null) {
+                    setState(() {
+                      state.expenses.insert(0, newExpense);
+                    });
+                  }
+                },
+                child: const Icon(CupertinoIcons.add),
+              ),
+              body:
+                  index == 0 ? MainScreen(state.expenses) : const StatScreen(),
+            );
+          } else {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 
-  //  Bottom Navigation Bar Method
-
+  // Bottom Navigation Bar Method
   ClipRRect bottomNavigationBarMethod(bool dark) {
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(

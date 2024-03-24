@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_repository/constants/collections.dart';
-
 import 'package:expense_repository/expense_repository.dart';
 
 class FirebaseExpenseRepo implements ExpenseRepository {
@@ -92,4 +91,21 @@ class FirebaseExpenseRepo implements ExpenseRepository {
       rethrow;
     }
   }
+
+  /*
+  @override
+  Future<List<Expense>> getUserExpenses(String userId) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> snapshot =
+          await expenseCollection.where('userId', isEqualTo: userId).get();
+      return snapshot.docs
+          .map((doc) =>
+              Expense.fromEntity(ExpenseEntity.fromDocument(doc.data())))
+          .toList();
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+  */
 }

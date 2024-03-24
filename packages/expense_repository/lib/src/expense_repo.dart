@@ -13,4 +13,7 @@ abstract class ExpenseRepository {
 
   // Tüm giderleri almayı sağlayan metot.
   Future<List<Expense>> getExpenses();
+
+  // Kullanıcıların kimliğine göre harcamaları getiren method.
+  // Future<List<Expense>> getUserExpenses(String userId);
 }
