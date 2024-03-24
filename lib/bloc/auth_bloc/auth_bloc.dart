@@ -9,8 +9,8 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
-  final UserRepository _userRepository;
   final FirebaseAuth _firebaseAuth;
+  final UserRepository _userRepository;
 
   AuthBloc(this._authRepository, this._userRepository,
       {FirebaseAuth? firebaseAuth})
@@ -65,7 +65,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ));
 
         emit(const Authenticated());
-      } on FirebaseAuthException catch (e) {
+      } on FirebaseAuthException catch (e, stackTrace) {
+        print('Hata: $e');
+        print('Stack Trace: $stackTrace');
+
+        //catch (e) {
         emit(AuthError('${ETexts.registered} $e'));
       }
     });
