@@ -23,7 +23,7 @@ class _RegisterFormState extends State<RegisterForm> {
       TextEditingController();
   bool _obscureText = true;
   final _formKey = GlobalKey<FormState>();
-  final User _user = User();
+  final UserModel _user = UserModel();
 
   @override
   Widget build(BuildContext context) {

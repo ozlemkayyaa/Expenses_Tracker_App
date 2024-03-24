@@ -32,7 +32,8 @@ class Expense {
   static Expense fromEntity(ExpenseEntity entity) {
     return Expense(
       expenseId: entity.expenseId,
-      category: entity.category,
+      category: Category.formEntity(
+          CategoryEntity.fromDocument(entity.category.toDocument())),
       date: entity.date,
       amount: entity.amount,
     );

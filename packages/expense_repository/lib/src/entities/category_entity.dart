@@ -15,7 +15,7 @@ class CategoryEntity {
 
   /// Bu fonksiyon, [CategoryEntity] nesnesini Firestore veritabanına kaydetmek için gerekli olan bir belgeye dönüştürür.
   /// Firestore'da belge veri yapısı kullanıldığı için, bu fonksiyon, [CategoryEntity] nesnesini Firestore belgesine dönüştürmek için kullanılır.
-  Map<String, Object> toDocument() {
+  Map<String, dynamic> toDocument() {
     return {
       'category_id': categoryId,
       'name': name,
@@ -30,10 +30,10 @@ class CategoryEntity {
   /// Bu fonksiyon, bu belgeyi alır ve [CategoryEntity] nesnesine dönüştürmek için kullanılır.
   static CategoryEntity fromDocument(Map<String, dynamic> doc) {
     return CategoryEntity(
-        categoryId: doc['category_id'],
-        name: doc['name'],
-        totalExpenses: doc['totalExpenses'],
-        icon: doc['icon'],
-        color: doc['color']);
+        categoryId: doc['category_id'] ?? '',
+        name: doc['name'] ?? '',
+        totalExpenses: doc['totalExpenses'] ?? 0,
+        icon: doc['icon'] ?? '',
+        color: doc['color'] ?? '');
   }
 }

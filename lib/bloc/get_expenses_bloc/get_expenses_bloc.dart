@@ -14,7 +14,9 @@ class GetExpensesBloc extends Bloc<GetExpensesEvent, GetExpensesState> {
       try {
         List<Expense> expenses = await expenseRepository.getExpenses();
         emit(GetExpensesSuccess(expenses));
-      } catch (e) {
+      } catch (e, stackTrace) {
+        print('Hata: $e');
+        print('Stack Trace: $stackTrace');
         emit(GetExpensesFailure());
       }
     });

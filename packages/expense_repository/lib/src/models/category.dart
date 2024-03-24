@@ -23,6 +23,26 @@ class Category {
     color: 0,
   );
 
+  Map<String, dynamic> toDocument() {
+    return {
+      'categoryId': categoryId,
+      'name': name,
+      'totalExpenses': totalExpenses,
+      'icon': icon,
+      'color': color,
+    };
+  }
+
+  static Category fromDocument(Map<String, dynamic> doc) {
+    return Category(
+      categoryId: doc['categoryId'],
+      name: doc['name'],
+      totalExpenses: doc['totalExpenses'],
+      icon: doc['icon'],
+      color: doc['color'],
+    );
+  }
+
   /// Bu fonksiyon, [Category] sınıfını Firestore'a veya başka bir veritabanına kaydetmek için gereken [CategoryEntity] sınıfına dönüştürür.
   /// Dönüştürülen [CategoryEntity] sınıfı, Firestore belgelerine veya diğer veritabanı yapılarına doğrudan yazılabilir.
   CategoryEntity toEntity() {

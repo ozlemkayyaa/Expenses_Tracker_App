@@ -14,11 +14,11 @@ class ExpenseEntity {
     required this.amount,
   });
 
-  Map<String, Object?> toDocument() {
+  Map<String, dynamic> toDocument() {
     return {
       'expenseId': expenseId,
       'category': category.toEntity().toDocument(),
-      'date': date,
+      'date': Timestamp.fromDate(date), // Date alanını Timestamp'e dönüştür
       'amount': amount,
     };
   }

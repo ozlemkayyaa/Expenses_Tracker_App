@@ -1,11 +1,11 @@
-import 'package:expense_repository/auth_repository.dart';
+import 'package:expense_repository/src/entities/entities.dart';
 
 class UserEntity {
   String? userId;
   String? fullName;
   String? email;
-  List<Expense>? expenses;
-  List<Category>? categories;
+  List<ExpenseEntity>? expenses;
+  List<CategoryEntity>? categories;
 
   UserEntity({
     this.userId,
@@ -20,8 +20,9 @@ class UserEntity {
       'userId': userId,
       'fullName': fullName,
       'email': email,
-      'categories': categories,
-      'expenses': expenses
+      'categories':
+          categories?.map((category) => category.toDocument()).toList(),
+      'expenses': expenses?.map((expense) => expense.toDocument()).toList(),
     };
   }
 
@@ -30,8 +31,12 @@ class UserEntity {
       userId: doc['userId'],
       fullName: doc['fullName'],
       email: doc['email'],
-      categories: doc['categories'] as List<Category>,
-      expenses: doc['expenses'] as List<Expense>,
+      categories: (doc['categories'] as List<dynamic>?)
+          ?.map((category) => CategoryEntity.fromDocument(category))
+          .toList(),
+      expenses: (doc['expenses'] as List<dynamic>?)
+          ?.map((expense) => ExpenseEntity.fromDocument(expense))
+          .toList(),
     );
   }
 }

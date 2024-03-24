@@ -13,4 +13,7 @@ abstract class AuthRepository {
 
   // Şifre Değiştirme
   Future<void> changePassword(String newPassword, String confirmNewPassword);
+
+  // Hesap Silme
+  Future<void> deleteAccount();
 }

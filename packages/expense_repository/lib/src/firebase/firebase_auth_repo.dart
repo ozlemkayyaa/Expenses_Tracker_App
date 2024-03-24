@@ -1,30 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expense_repository/constants/collections.dart';
 import 'package:expense_repository/constants/texts.dart';
-import 'package:expense_repository/src/auth_repo.dart';
+import 'package:expense_repository/src/repository/auth_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthRepo implements AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   // Register
   @override
   Future<void> register(String fullName, String email, String password) async {
     try {
-      UserCredential userCredential =
-          await _firebaseAuth.createUserWithEmailAndPassword(
+      await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      await _firebaseFirestore
-          .collection(Collections.users)
-          .doc(userCredential.user!.uid)
-          .set({
-        'userId': userCredential.user!.uid,
-        'fullName': fullName,
-        'email': email,
-      });
     } on FirebaseAuthException catch (e) {
       // ignore: avoid_print
       print('${ETextsPackage.registerError} ${e.message}');
@@ -83,5 +71,15 @@ class FirebaseAuthRepo implements AuthRepository {
       print('${ETextsPackage.signOutError} ${e.message}');
       rethrow;
     }
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    final user = _firebaseAuth.currentUser;
+
+    if (user == null) {
+      return;
+    }
+    await user.delete();
   }
 }

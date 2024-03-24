@@ -1,5 +1,6 @@
 import 'package:expense_repository/auth_repository.dart';
 import 'package:expense_repository/expense_repository.dart';
+import 'package:expense_repository/user_repository.dart';
 import 'package:expenses_tracker/bloc/auth_bloc/auth_bloc.dart';
 import 'package:expenses_tracker/bloc/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:expenses_tracker/screens/auth/login/login_screen.dart';
@@ -25,7 +26,8 @@ class MyAppView extends StatelessWidget {
                 GetExpensesBloc(FirebaseExpenseRepo())..add(GetExpenses()),
           ),
           BlocProvider(
-            create: (context) => AuthBloc(FirebaseAuthRepo()),
+            create: (context) =>
+                AuthBloc(FirebaseAuthRepo(), FirebaseUserRepo()),
           ),
         ],
         child: const LoginScreen(),
