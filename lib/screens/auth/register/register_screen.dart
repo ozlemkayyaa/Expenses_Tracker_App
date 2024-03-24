@@ -1,6 +1,8 @@
 import 'package:expense_repository/auth_repository.dart';
+import 'package:expense_repository/expense_repository.dart';
 import 'package:expense_repository/user_repository.dart';
 import 'package:expenses_tracker/bloc/auth_bloc/auth_bloc.dart';
+import 'package:expenses_tracker/bloc/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:expenses_tracker/screens/auth/login/login_screen.dart';
 import 'package:expenses_tracker/screens/auth/register/widget/register_form.dart';
 import 'package:expenses_tracker/screens/auth/widget/form_divider.dart';
@@ -18,8 +20,16 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthBloc>(
-      create: (context) => AuthBloc(FirebaseAuthRepo(), FirebaseUserRepo()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(FirebaseAuthRepo(), FirebaseUserRepo()),
+        ),
+        BlocProvider<GetExpensesBloc>(
+          create: (context) =>
+              GetExpensesBloc(FirebaseExpenseRepo())..add(GetExpenses()),
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(),
         body: BlocBuilder<AuthBloc, AuthState>(
