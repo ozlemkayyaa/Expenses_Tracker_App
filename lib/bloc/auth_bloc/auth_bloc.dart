@@ -9,6 +9,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
+  // ignore: unused_field
   final FirebaseAuth _firebaseAuth;
   final UserRepository _userRepository;
 
@@ -16,18 +17,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       {FirebaseAuth? firebaseAuth})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         super(AuthInitial()) {
-    /*      
-    _firebaseAuth.authStateChanges().listen((user) {
-      if (user != null) {
-        // ignore: invalid_use_of_visible_for_testing_member
-        emit(Authenticated(user: user));
-      } else {
-        // ignore: invalid_use_of_visible_for_testing_member
-        emit(Unauthenticated());
-      }
-    }
-    );
-*/
     // Login
     on<LoggedIn>((event, emit) async {
       emit(AuthLoading());
@@ -36,8 +25,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await _userRepository.fetchUser(UserModel(
           email: event.email,
         ));
-        emit(Authenticated(user: _firebaseAuth.currentUser));
-      } on FirebaseAuthException catch (e) {
+        emit(Authenticated(user: UserModel()));
+      } on FirebaseAuthException catch (e, stackTrace) {
+        print('Hata: $e');
+        print('Stack Trace: $stackTrace');
         emit(AuthError('${ETexts.loggedIn} $e'));
       }
     });
