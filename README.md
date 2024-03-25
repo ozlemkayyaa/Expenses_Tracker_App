@@ -42,8 +42,8 @@ For any bugs or suggestions, please report in Issues section.
 Expense Tracker App is licensed under the MIT license. See the LICENSE file for more information.
 
 ## UI
-<img src = "https://github.com/ozlemkayyaa/Expenses_Tracker_App/assets/126676960/bf613458-cc7d-490a-ac6a-3589af8ec65c" alt="alt text" width="100" height="100">
-<img src = "https://github.com/ozlemkayyaa/Expenses_Tracker_App/assets/126676960/b06380df-8908-4ed4-a42d-20153b595027" alt="alt text" width="100" height="100">
-<img src = "https://github.com/ozlemkayyaa/Expenses_Tracker_App/assets/126676960/7a18deb3-1ea1-4fe4-b712-15b5e69921d7" alt="alt text" width="100" height="100">
-<img src = "https://github.com/ozlemkayyaa/Expenses_Tracker_App/assets/126676960/762d9c93-86bc-494b-919e-888d1d6d464d" alt="alt text" width="100" height="100">
-<img src = "https://github.com/ozlemkayyaa/Expenses_Tracker_App/assets/126676960/ec9a44a1-550d-4f4a-b5a9-2f5e3bbad5ad" alt="alt text" width="100" height="100">
+<img src = "https://github.com/ozlemkayyaa/Expenses_Tracker_App/assets/126676960/bf613458-cc7d-490a-ac6a-3589af8ec65c" alt="alt text" width="190">
+<img src = "https://github.com/ozlemkayyaa/Expenses_Tracker_App/assets/126676960/b06380df-8908-4ed4-a42d-20153b595027" alt="alt text" width="190">
+<img src = "https://github.com/ozlemkayyaa/Expenses_Tracker_App/assets/126676960/7a18deb3-1ea1-4fe4-b712-15b5e69921d7" alt="alt text" width="190">
+<img src = "https://github.com/ozlemkayyaa/Expenses_Tracker_App/assets/126676960/762d9c93-86bc-494b-919e-888d1d6d464d" alt="alt text" width="190">
+<img src = "https://github.com/ozlemkayyaa/Expenses_Tracker_App/assets/126676960/ec9a44a1-550d-4f4a-b5a9-2f5e3bbad5ad" alt="alt text" width="190">
