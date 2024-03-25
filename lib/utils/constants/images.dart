@@ -16,4 +16,9 @@ class EImages {
   static const String google = "assets/logos/googleLogo.png";
   static const String appleWhite = "assets/logos/appleWhite.png";
   static const String appleDark = "assets/logos/appleLogo.png";
+
+  // Onboarding
+  static const String onboarding1 = "assets/images/onboarding/onboarding1.png";
+  static const String onboarding2 = "assets/images/onboarding/onboarding2.png";
+  static const String onboarding3 = "assets/images/onboarding/onboarding3.png";
 }

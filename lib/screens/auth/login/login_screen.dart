@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                     // Login Header
                     const SizedBox(height: ESizes.spaceBtwInputFields),
                     const FormHeader(
-                      paddingValue: 100.0,
+                      paddingValue: 80.0,
                       header: ETexts.loginHeader,
                       headerMessage: ETexts.loginMessage,
                     ),

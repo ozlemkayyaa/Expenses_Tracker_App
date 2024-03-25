@@ -1,6 +1,20 @@
 class ETexts {
   //---------------------------------------------------------------------------
 
+  //------------------------------- Onboarding --------------------------------
+  static const String onboardingTitle1 = "Track Your Expenses Easily!";
+  static const String onboardingMessage1 =
+      "Easily record and manage your expenses and take better control of your finances.";
+  static const String onboardingTitle2 = "Track Your Expenses with Graphs!";
+  static const String onboardingMessage2 =
+      "Visualize your expenses with graphs and analyze your expenses more clearly.";
+  static const String onboardingTitle3 = "Keep Your Assets Under Control!";
+  static const String onboardingMessage3 =
+      "View and manage all your assets in one place and strengthen your financial health.";
+  static const String skip = "Skip";
+  static const String next = "Next";
+  static const String done = "Done";
+
   //--------------------------------- Login -----------------------------------
   static const String fullName = "Full Name";
   static const String email = "E-Mail";
